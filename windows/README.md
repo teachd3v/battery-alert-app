@@ -1,22 +1,30 @@
 # Battery Alert — Windows
 
-Popup notifikasi baterai untuk Windows. Muncul otomatis saat baterai lemah atau sudah penuh, hilang sendiri saat kondisi berubah.
+Popup notifikasi baterai bergaya **glassmorphism** untuk Windows. Muncul otomatis saat baterai lemah atau sudah penuh, hilang sendiri saat kondisi berubah.
 
-![Windows](https://img.shields.io/badge/Platform-Windows%2010%2F11-blue)
+![Windows](https://img.shields.io/badge/Platform-Windows%2010%2F11-0078D4)
 ![Python](https://img.shields.io/badge/Python-3.8+-green)
 
 ---
 
-## Cara Install (untuk pengguna)
+## Cara Install
 
-> Tidak perlu install Python. Cukup download file `.exe`.
+> Tidak perlu install Python atau software apapun. Cukup download dan double-click.
 
-1. Download **`BatteryAlert.exe`** dari [Releases](https://github.com/teachd3v/battery-alert-app/releases)
-2. Double-click file tersebut
-3. Klik **Yes** saat muncul dialog konfirmasi
-4. App otomatis terinstall ke `%LocalAppData%\BatteryAlert\` dan berjalan setiap startup Windows
+### 1. Download
 
-Selesai — tidak perlu konfigurasi apapun.
+**[⬇ Download BatteryAlert.exe](https://github.com/teachd3v/battery-alert-app/releases/latest/download/BatteryAlert.exe)**
+
+### 2. Jalankan
+
+Double-click `BatteryAlert.exe` → klik **Yes** saat muncul dialog → selesai.
+
+App otomatis:
+- Menyalin dirinya ke `%LocalAppData%\BatteryAlert\`
+- Mendaftarkan ke startup Windows (registry)
+- Langsung mulai memantau baterai di background
+
+Tidak ada icon di taskbar atau tray — app berjalan diam-diam di background.
 
 ---
 
@@ -25,7 +33,6 @@ Selesai — tidak perlu konfigurasi apapun.
 - Popup fullscreen saat baterai **≤ 20%** (tidak sedang dicas)
 - Popup fullscreen saat baterai **≥ 90%** (sedang dicas — ingatkan cabut charger)
 - Hilang otomatis saat kondisi berubah
-- Berjalan diam-diam di background tanpa icon tray
 - Auto-start setiap Windows login via registry
 
 ---
@@ -33,68 +40,42 @@ Selesai — tidak perlu konfigurasi apapun.
 ## Persyaratan
 
 - Windows 10 / Windows 11
-- Laptop dengan baterai (tidak berlaku untuk PC desktop)
-
----
-
-## Build dari Source (untuk developer)
-
-Jika ingin build `.exe` sendiri:
-
-### 1. Install Python
-
-Download dari [python.org](https://www.python.org/downloads/) — pastikan centang **"Add Python to PATH"** saat install.
-
-### 2. Clone repo
-
-```cmd
-git clone https://github.com/teachd3v/battery-alert-app.git
-cd battery-alert-app\windows
-```
-
-### 3. Jalankan build script
-
-```cmd
-build.bat
-```
-
-Script akan otomatis:
-- Install PyInstaller jika belum ada
-- Build `dist\BatteryAlert.exe`
-- Hapus file build sementara
-
-### 4. Distribusikan
-
-Bagikan file `dist\BatteryAlert.exe` ke teman-teman — mereka tinggal double-click.
-
----
-
-## Test Popup
-
-Cek tampilan tanpa menunggu kondisi baterai:
-
-```cmd
-BatteryAlert.exe --test-low
-BatteryAlert.exe --test-full
-```
+- Laptop dengan baterai
 
 ---
 
 ## Uninstall
 
+Jalankan dari Command Prompt:
+
 ```cmd
-BatteryAlert.exe --uninstall
+"%LocalAppData%\BatteryAlert\BatteryAlert.exe" --uninstall
 ```
 
-Atau manual:
-1. Hapus folder `%LocalAppData%\BatteryAlert\`
-2. Buka **Task Manager** → tab **Startup** → disable `BatteryAlert`
+Lalu hapus folder secara manual:
+
+```cmd
+rmdir /s /q "%LocalAppData%\BatteryAlert"
+```
+
+Atau lewat **Task Manager** → tab **Startup** → klik kanan `BatteryAlert` → Disable.
+
+---
+
+## Test Popup
+
+Cek tampilan sebelum kondisi baterai tercapai:
+
+```cmd
+"%LocalAppData%\BatteryAlert\BatteryAlert.exe" --test-low
+"%LocalAppData%\BatteryAlert\BatteryAlert.exe" --test-full
+```
 
 ---
 
 ## Konfigurasi
 
-Edit nilai di bagian atas `battery_alert.py` sebelum build:
+Edit nilai di bagian atas `battery_alert.py` lalu build ulang:
 
 ```python
 THRESHOLD_LOW  = 20   # alert saat daya ≤ 20% (tidak dicas)
@@ -103,32 +84,32 @@ CHECK_SEC      = 30   # interval cek normal (detik)
 DISMISS_SEC    = 5    # interval cek saat alert aktif (detik)
 ```
 
-Setelah edit, jalankan `build.bat` ulang untuk generate exe baru.
-
 ---
 
-## Cara Kerja
+## Build dari Source (untuk developer)
 
-| Kondisi | Aksi |
-|---|---|
-| Baterai ≤ 20% + tidak dicas | Popup merah muncul |
-| Charger dipasang | Popup merah hilang |
-| Baterai ≥ 90% + sedang dicas | Popup hijau muncul |
-| Charger dicabut | Popup hijau hilang |
+Jika ingin build `.exe` sendiri:
 
-App berjalan di background (tidak ada icon di taskbar/tray). Cek via **Task Manager → Details → BatteryAlert.exe**.
+```cmd
+git clone https://github.com/teachd3v/battery-alert-app.git
+cd battery-alert-app\windows
+build.bat
+```
+
+> `build.bat` otomatis install PyInstaller dan menghasilkan `dist\BatteryAlert.exe`.
+> File `.exe` di Releases dibangun otomatis via GitHub Actions setiap ada perubahan di `main`.
 
 ---
 
 ## Troubleshooting
 
 **Popup tidak muncul**
-- Pastikan laptop menggunakan baterai (bukan desktop PC)
-- Cek Task Manager apakah `BatteryAlert.exe` sudah running
+- Pastikan laptop menggunakan baterai (tidak berlaku untuk PC desktop)
+- Cek di Task Manager → Details → cari `BatteryAlert.exe`
 
 **App tidak muncul saat startup**
 - Buka `regedit` → `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run`
-- Pastikan ada entry `BatteryAlert` yang menunjuk ke path yang benar
+- Pastikan ada entry `BatteryAlert`
 
 **Efek blur tidak muncul**
-- Normal terjadi di Windows 10 versi lama — app tetap berfungsi dengan background solid
+- Normal di Windows 10 versi lama — app tetap berfungsi dengan background solid

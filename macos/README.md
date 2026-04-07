@@ -11,7 +11,7 @@ Popup notifikasi baterai bergaya **glassmorphism** untuk macOS. Muncul otomatis 
 
 > Tidak perlu install Python. Cukup download file `.dmg`.
 
-1. Download **`BatteryAlert.dmg`** dari [Releases](https://github.com/teachd3v/battery-alert-app/releases)
+1. Download **[BatteryAlert.dmg](https://github.com/teachd3v/battery-alert-app/releases/latest/download/BatteryAlert.dmg)**
 2. Buka file `.dmg`
 3. Drag **BatteryAlert** ke folder **Applications**
 4. Buka **BatteryAlert** dari Applications

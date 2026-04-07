@@ -1,0 +1,104 @@
+name: Build & Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  # ── Build Windows .exe ────────────────────────────────────────────────────
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install PyInstaller
+        run: pip install pyinstaller
+
+      - name: Build BatteryAlert.exe
+        run: |
+          cd windows
+          pyinstaller `
+            --onefile `
+            --windowed `
+            --name BatteryAlert `
+            battery_alert.py
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: BatteryAlert-Windows
+          path: windows/dist/BatteryAlert.exe
+
+  # ── Build macOS .dmg ──────────────────────────────────────────────────────
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install PyInstaller
+        run: pip3 install pyinstaller
+
+      - name: Build BatteryAlert.dmg
+        run: |
+          cd macos
+          chmod +x build.sh
+          ./build.sh
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: BatteryAlert-macOS
+          path: macos/dist/BatteryAlert.dmg
+
+  # ── Publish ke GitHub Releases ────────────────────────────────────────────
+  release:
+    needs: [build-windows, build-macos]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: BatteryAlert-Windows
+          path: artifacts/
+
+      - name: Download macOS artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: BatteryAlert-macOS
+          path: artifacts/
+
+      - name: Hapus release latest lama (jika ada)
+        run: gh release delete latest --yes --cleanup-tag 2>/dev/null || true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Buat release latest baru
+        run: |
+          gh release create latest \
+            --title "Battery Alert — Latest Build" \
+            --notes "## Download
+
+          | Platform | File | Cara Install |
+          |---|---|---|
+          | Windows 10/11 | \`BatteryAlert.exe\` | Double-click → klik **Yes** → selesai |
+          | macOS 10.13+ | \`BatteryAlert.dmg\` | Buka DMG → drag ke Applications → buka → klik **Ya** |
+
+          > Build otomatis dari branch \`main\` terbaru." \
+            artifacts/BatteryAlert.exe \
+            artifacts/BatteryAlert.dmg
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

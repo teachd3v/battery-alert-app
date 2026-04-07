@@ -9,15 +9,25 @@ Popup notifikasi baterai bergaya **glassmorphism**. Muncul otomatis saat baterai
 
 ---
 
-## Platform
+## Download
 
-| OS | Folder | Panduan |
+| OS | File | Cara Install |
+|---|---|---|
+| Windows 10/11 | [BatteryAlert.exe](https://github.com/teachd3v/battery-alert-app/releases/latest/download/BatteryAlert.exe) | Double-click → klik **Yes** → selesai |
+| macOS 10.13+ | [BatteryAlert.dmg](https://github.com/teachd3v/battery-alert-app/releases/latest/download/BatteryAlert.dmg) | Buka DMG → drag ke Applications → buka → klik **Ya** |
+| Linux | — | Lihat [linux/README.md](linux/README.md) |
+
+> File `.exe` dan `.dmg` dibangun otomatis via GitHub Actions setiap ada update.
+
+---
+
+## Panduan per Platform
+
+| OS | Folder | README |
 |---|---|---|
 | Linux | [`linux/`](linux/) | [linux/README.md](linux/README.md) |
 | Windows | [`windows/`](windows/) | [windows/README.md](windows/README.md) |
 | macOS | [`macos/`](macos/) | [macos/README.md](macos/README.md) |
-
-Pilih folder sesuai OS kamu, lalu ikuti README di dalamnya.
 
 ---
 
