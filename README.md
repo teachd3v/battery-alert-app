@@ -1,10 +1,15 @@
-# Battery Alert — Linux GTK4
+# Battery Alert
 
-Popup notifikasi baterai bergaya **glassmorphism** untuk Linux. Muncul otomatis saat baterai lemah atau sudah penuh, dan hilang sendiri saat kondisi berubah.
+Popup notifikasi baterai bergaya **glassmorphism**. Muncul otomatis saat baterai lemah atau sudah penuh, dan hilang sendiri saat kondisi berubah.
 
-![Linux](https://img.shields.io/badge/Platform-Linux-blue)
+![Linux](https://img.shields.io/badge/Linux-GTK4-blue)
+![Windows](https://img.shields.io/badge/Windows-10%2F11-0078D4)
 ![Python](https://img.shields.io/badge/Python-3.8+-green)
-![GTK](https://img.shields.io/badge/GTK-4.0-orange)
+
+| Platform | Panduan |
+|---|---|
+| Linux | Lihat bagian di bawah |
+| Windows | [windows/README.md](windows/README.md) |
 
 ---
 
