@@ -4,6 +4,7 @@ Popup notifikasi baterai bergaya **glassmorphism**. Muncul otomatis saat baterai
 
 ![Linux](https://img.shields.io/badge/Linux-GTK4-blue)
 ![Windows](https://img.shields.io/badge/Windows-10%2F11-0078D4)
+![macOS](https://img.shields.io/badge/macOS-10.13+-lightgrey)
 ![Python](https://img.shields.io/badge/Python-3.8+-green)
 
 ---
@@ -14,6 +15,7 @@ Popup notifikasi baterai bergaya **glassmorphism**. Muncul otomatis saat baterai
 |---|---|---|
 | Linux | [`linux/`](linux/) | [linux/README.md](linux/README.md) |
 | Windows | [`windows/`](windows/) | [windows/README.md](windows/README.md) |
+| macOS | [`macos/`](macos/) | [macos/README.md](macos/README.md) |
 
 Pilih folder sesuai OS kamu, lalu ikuti README di dalamnya.
 
